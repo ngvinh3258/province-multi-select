@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <div class="select-container" ref="dropdown">
-      <div class="title-province" @click="$store.commit('setShowDropdown', !isShowDropdown)"
-        :class="{ active: isShowDropdown === true }">Chọn tỉnh thành</div>
-      <ProvinceList></ProvinceList>
+    <div class="select-container" v-click-outside="clickOutSide">
+      <input class="title-province" @click="$store.commit('setShowDropdown', !isShowDropdown)"
+        :class="{ active: isShowDropdown === true }" placeholder="Chọn tỉnh thành" type="text" v-model="search" />
+      <ProvinceList :search="search"></ProvinceList>
     </div>
     <ProvinceResult v-if="!isShowDropdown" />
   </div>
@@ -20,23 +20,24 @@ export default {
     ProvinceList,
     ProvinceResult
   },
+  data() {
+    return {
+      search: ''
+    }
+  },
   computed: {
 
-    ...mapGetters(["isShowDropdown"]),
+    ...mapGetters(["provinces", "isShowDropdown"]),
   }
   , created() {
     this.$store.dispatch("getProvinceGG");
+
   }, methods: {
     ...mapMutations(['setShowDropdown']),
+    clickOutSide() {
+      store.commit('setShowDropdown', false)
+    }
   }
-  ,
-  mounted() {
-    window.addEventListener("click", (e) => {
-      if (e.target.contains(this.$refs.dropdown))
-        store.commit('setShowDropdown', false)
-    });
-  },
-
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div v-if="isShowDropdown" class="list-container">
     <div class="province-list">
-      <label class="province-item" v-for="(province, key, index) in provinces" :key="index">
+      <label class="province-item" v-for="(province, key, index) in filterProvinces" :key="index">
         <ProvinceCheckbox :province="province" :idProvince="key"> </ProvinceCheckbox>
       </label>
     </div>
@@ -21,16 +21,27 @@ import store from '@/store';
 export default {
   components: {
     ProvinceCheckbox
+  }, props: {
+    search: String,
   },
   computed: {
     ...mapGetters(["provinces", "isShowDropdown"]),
     ...mapState(["checkedProvince"]),
+    filterProvinces() {
+      if (this.search) {
+        return Object.fromEntries(Object.entries(this.provinces).filter(([key]) => key.toLowerCase().includes(this.search.toLowerCase())));
+      } else {
+        return this.provinces;
+      }
+    },
   },
   methods: {
     confirmProvince() {
-      store.commit('setShowDropdown', false)
+      store.commit('setShowDropdown', false);
     },
     ...mapMutations(['removeAllProvinces', 'setShowDropdown']),
+
+
   },
 };
 </script>
