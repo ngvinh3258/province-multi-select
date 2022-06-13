@@ -5,7 +5,7 @@
         :class="{ active: isShowDropdown === true }">Chọn tỉnh thành</div>
       <ProvinceList></ProvinceList>
     </div>
-    <ProvinceResult v-show="!isShowDropdown" />
+    <ProvinceResult v-if="!isShowDropdown" />
   </div>
 </template>
 

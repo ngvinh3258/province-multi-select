@@ -6,8 +6,8 @@
       </label>
     </div>
     <div class="button-group">
-      <button @click="ok" :disabled="checkedProvince.data.length == 0" class="button-ok"
-        :class="{ active: checkedProvince.data.length > 0 }">Đồng ý</button>
+      <button @click="confirmProvince" :disabled="!checkedProvince.data.length" class="button-ok"
+        :class="{ active: checkedProvince.data.length }">Đồng ý</button>
       <button @click="removeAllProvinces" class="button-cancel">Hủy</button>
     </div>
   </div>
@@ -27,7 +27,7 @@ export default {
     ...mapState(["checkedProvince"]),
   },
   methods: {
-    ok() {
+    confirmProvince() {
       store.commit('setShowDropdown', false)
     },
     ...mapMutations(['removeAllProvinces', 'setShowDropdown']),
