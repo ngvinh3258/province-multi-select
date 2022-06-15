@@ -15,8 +15,8 @@ export default new VueX.Store({
     checkedProvince: (state) => state.checkedProvince,
     getCheck(state) {
       let temp = [];
-      state.checkedProvince.data.forEach((key) => {
-        temp.push({ [key]: state.provinces[key] });
+      state.checkedProvince.data.map((e) => {
+        temp.push({ [e]: state.provinces[e] });
       });
       return temp;
     },

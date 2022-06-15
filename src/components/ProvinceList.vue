@@ -1,13 +1,13 @@
 <template>
   <div v-if="isShowDropdown" class="list-container">
     <div class="province-list">
-      <label class="province-item" v-for="(province, key, index) in provinces" :key="index">
+      <label class="province-item" v-for="(province, key, index) in filterProvinces" :key="index">
         <ProvinceCheckbox :province="province" :idProvince="key"> </ProvinceCheckbox>
       </label>
     </div>
     <div class="button-group">
-      <button @click="ok" :disabled="checkedProvince.data.length == 0" class="button-ok"
-        :class="{ active: checkedProvince.data.length > 0 }">Đồng ý</button>
+      <button @click="confirmProvince" :disabled="!checkedProvince.data.length" class="button-ok"
+        :class="{ active: checkedProvince.data.length }">Đồng ý</button>
       <button @click="removeAllProvinces" class="button-cancel">Hủy</button>
     </div>
   </div>
@@ -21,16 +21,27 @@ import store from '@/store';
 export default {
   components: {
     ProvinceCheckbox
+  }, props: {
+    search: String,
   },
   computed: {
     ...mapGetters(["provinces", "isShowDropdown"]),
     ...mapState(["checkedProvince"]),
+    filterProvinces() {
+      if (this.search) {
+        return Object.fromEntries(Object.entries(this.provinces).filter(([key]) => key.toLowerCase().includes(this.search.toLowerCase())));
+      } else {
+        return this.provinces;
+      }
+    },
   },
   methods: {
-    ok() {
-      store.commit('setShowDropdown', false)
+    confirmProvince() {
+      store.commit('setShowDropdown', false);
     },
     ...mapMutations(['removeAllProvinces', 'setShowDropdown']),
+
+
   },
 };
 </script>
