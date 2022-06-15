@@ -1,48 +1,55 @@
 <template>
-  <div v-if="isShowDropdown" class="list-container">
+  <div class="list-container">
     <div class="province-list">
-      <label class="province-item" v-for="(province, key, index) in filterProvinces" :key="index">
-        <ProvinceCheckbox :province="province" :idProvince="key"> </ProvinceCheckbox>
+      <label
+        class="province-item"
+        v-for="(province, key, index) in listOption"
+        :key="index"
+      >
+        <ProvinceCheckbox :province="province" :idProvince="key">
+        </ProvinceCheckbox>
       </label>
     </div>
     <div class="button-group">
-      <button @click="confirmProvince" :disabled="!checkedProvince.data.length" class="button-ok"
-        :class="{ active: checkedProvince.data.length }">Đồng ý</button>
-      <button @click="removeAllProvinces" class="button-cancel">Hủy</button>
+      <button
+        :disabled="false"
+        class="button-ok"
+        :class="{ active: true }"
+        @click="confirmHandle"
+      >
+        Đồng ý
+      </button>
+      <button class="button-cancel">Hủy</button>
     </div>
   </div>
 </template>
 
 <script>
 import ProvinceCheckbox from "./ProvinceCheckbox.vue";
-import { mapGetters, mapMutations, mapState } from "vuex";
-
-import store from '@/store';
 export default {
   components: {
-    ProvinceCheckbox
-  }, props: {
-    search: String,
+    ProvinceCheckbox,
   },
-  computed: {
-    ...mapGetters(["provinces", "isShowDropdown"]),
-    ...mapState(["checkedProvince"]),
-    filterProvinces() {
-      if (this.search) {
-        return Object.fromEntries(Object.entries(this.provinces).filter(([key]) => key.toLowerCase().includes(this.search.toLowerCase())));
-      } else {
-        return this.provinces;
-      }
-    },
+  props: {
+    listOption: {},
   },
   methods: {
-    confirmProvince() {
-      store.commit('setShowDropdown', false);
+    confirmHandle() {
+      console.log(this.listOption);
     },
-    ...mapMutations(['removeAllProvinces', 'setShowDropdown']),
-
-
   },
+
+  // computed: {
+  //   ...mapGetters(["provinces", "isShowDropdown"]),
+  //   ...mapState(["checkedProvince"]),
+  //   //search
+  // },
+  // methods: {
+  //   confirmProvince() {
+  //     store.commit("setShowDropdown", false);
+  //   },
+  //   ...mapMutations(["removeAllProvinces", "setShowDropdown"]),
+  // },
 };
 </script>
 <style scoped>
@@ -50,7 +57,6 @@ export default {
   position: absolute;
   background-color: #fff;
   box-shadow: 0 1px 8px hsl(0deg 0% 40% / 20%);
-
 }
 
 .province-list {
@@ -67,7 +73,6 @@ button {
   font-size: 16px;
   line-height: 24px;
   cursor: pointer;
-
 }
 
 .button-ok.active {

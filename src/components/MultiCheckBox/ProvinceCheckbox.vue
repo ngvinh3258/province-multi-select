@@ -1,16 +1,14 @@
 <template>
   <div class="checkbox-group">
     <span class="checkbox-province">
-      <input type="checkbox" v-model="checkedProvince.data" :value="idProvince" />
+      <input type="checkbox" :value="idProvince" />
       <span class="checkmark"></span>
     </span>
     <span class="label">{{ province }}</span>
   </div>
-
 </template>
 
 <script>
-import { mapState } from "vuex";
 export default {
   props: {
     province: {
@@ -21,9 +19,7 @@ export default {
       type: String,
       required: true,
     },
-  },
-  computed: {
-    ...mapState(["checkedProvince"]),
+    checkedData: [],
   },
 };
 </script>
@@ -71,7 +67,7 @@ span.label {
   border: 1px solid #333333;
 }
 
-.checkbox-province input:checked+.checkmark {
+.checkbox-province input:checked + .checkmark {
   background-color: #45d1c9;
   border-color: transparent;
 }
@@ -82,7 +78,7 @@ span.label {
   display: none;
 }
 
-.checkbox-province input:checked+.checkmark:after {
+.checkbox-province input:checked + .checkmark:after {
   display: block;
 }
 

@@ -1,9 +1,8 @@
-<template >
-  <div class="province-result" v-if="checkedProvince.data.length > 0">
+<template>
+  <div class="province-result">
     <div class="item-result" v-for="(data, index) in getCheck" :key="index">
       <span class="province-name">{{ Object.values(data)[0] }}</span>
-      <img src="../assets/close.png" class="close-button"
-        @click="$store.commit('unCheckProvince', Object.keys(data)[0])" />
+      <img src="../../assets/close.png" class="close-button" />
     </div>
   </div>
 </template>
