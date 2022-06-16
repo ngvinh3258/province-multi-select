@@ -3,10 +3,14 @@
     <div class="province-list">
       <label
         class="province-item"
-        v-for="(province, key, index) in listOption"
+        v-for="(province, index) in listOption"
         :key="index"
       >
-        <ProvinceCheckbox :province="province" :idProvince="key">
+        <ProvinceCheckbox
+          :province="province"
+          :isChecked="isCheckData"
+          :toggleCheckList="toggleCheckList"
+        >
         </ProvinceCheckbox>
       </label>
     </div>
@@ -14,12 +18,12 @@
       <button
         :disabled="false"
         class="button-ok"
-        :class="{ active: true }"
-        @click="confirmHandle"
+        :class="{ active: !emptyCheckList }"
+        @click="$emit('confirm-check')"
       >
         Đồng ý
       </button>
-      <button class="button-cancel">Hủy</button>
+      <button class="button-cancel" @click="$emit('remove-check')">Hủy</button>
     </div>
   </div>
 </template>
@@ -31,25 +35,16 @@ export default {
     ProvinceCheckbox,
   },
   props: {
-    listOption: {},
+    listOption: Array,
+    isCheckData: Function,
+    toggleCheckList: Function,
+    emptyCheckList: Boolean,
   },
   methods: {
     confirmHandle() {
       console.log(this.listOption);
     },
   },
-
-  // computed: {
-  //   ...mapGetters(["provinces", "isShowDropdown"]),
-  //   ...mapState(["checkedProvince"]),
-  //   //search
-  // },
-  // methods: {
-  //   confirmProvince() {
-  //     store.commit("setShowDropdown", false);
-  //   },
-  //   ...mapMutations(["removeAllProvinces", "setShowDropdown"]),
-  // },
 };
 </script>
 <style scoped>

@@ -1,18 +1,21 @@
 <template>
   <div class="province-result">
     <div class="item-result" v-for="(data, index) in getCheck" :key="index">
-      <span class="province-name">{{ Object.values(data)[0] }}</span>
-      <img src="../../assets/close.png" class="close-button" />
+      <span class="province-name">{{ data }}</span>
+      <img
+        src="../../assets/close.png"
+        class="close-button"
+        @click="removeChecked(data)"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
 export default {
-  computed: {
-    ...mapGetters(["getCheck"]),
-    ...mapState(["checkedProvince"]),
+  props: {
+    getCheck: Array,
+    removeChecked: Function,
   },
 };
 </script>

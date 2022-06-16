@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <button class="saaaaaa" @click="saaa">saaaaaaaaa</button>
-    <SelectMultiCheckbox :listData="data"></SelectMultiCheckbox>
+    <SelectMultiCheckbox :listData="dataa"></SelectMultiCheckbox>
   </div>
 </template>
 
@@ -16,22 +15,18 @@ export default {
   data() {
     return {
       search: "",
-      data: {},
+      dataa: [],
     };
   },
   created() {
     axios.get("https://provinces.open-api.vn/api/?depth=1").then((response) => {
-      // let data = {};
+      let listData = [];
       response.data.forEach((e) => {
-        this.data[e.codename] = e.name.replace(/(Thành phố )|(Tỉnh )/i, "");
+        listData.push(e.name.replace(/(Thành phố )|(Tỉnh )/i, ""));
       });
-      console.log("data", this.data);
+      this.dataa = listData;
+      console.log("data", this.dataa);
     });
-  },
-  methods: {
-    saaa() {
-      console.log("data", this.data);
-    },
   },
 };
 </script>

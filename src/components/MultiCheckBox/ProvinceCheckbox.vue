@@ -1,7 +1,12 @@
 <template>
   <div class="checkbox-group">
     <span class="checkbox-province">
-      <input type="checkbox" :value="idProvince" />
+      <input
+        type="checkbox"
+        :value="province"
+        :checked="isChecked(province)"
+        @input="changeCheck(province)"
+      />
       <span class="checkmark"></span>
     </span>
     <span class="label">{{ province }}</span>
@@ -15,11 +20,16 @@ export default {
       type: String,
       required: true,
     },
-    idProvince: {
-      type: String,
+    isChecked: {
+      type: Function,
       required: true,
     },
-    checkedData: [],
+    toggleCheckList: { type: Function },
+  },
+  methods: {
+    changeCheck(e) {
+      this.toggleCheckList(e);
+    },
   },
 };
 </script>
