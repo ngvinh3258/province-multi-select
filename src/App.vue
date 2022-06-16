@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <SelectMultiCheckbox :listData="dataa"></SelectMultiCheckbox>
+    <SelectMultiCheckbox
+      :listData="dataa"
+      :placeholder="placeholder"
+    ></SelectMultiCheckbox>
   </div>
 </template>
 
@@ -16,6 +19,7 @@ export default {
     return {
       search: "",
       dataa: [],
+      placeholder: "Choose provinces",
     };
   },
   created() {
@@ -25,7 +29,6 @@ export default {
         listData.push(e.name.replace(/(Thành phố )|(Tỉnh )/i, ""));
       });
       this.dataa = listData;
-      console.log("data", this.dataa);
     });
   },
 };

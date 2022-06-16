@@ -4,7 +4,7 @@
       <input
         class="title-province"
         :class="{ active: true }"
-        placeholder="Chọn tỉnh thành"
+        :placeholder="placeholder"
         type="text"
         v-model="search"
         ref="input"
@@ -38,7 +38,7 @@ export default {
   },
   props: {
     listData: Array,
-    onCheck: Function,
+    placeholder:String
   },
   data() {
     return {
@@ -50,9 +50,10 @@ export default {
   computed: {
     filterProvinces() {
       if (this.search) {
-        const value = convert_vi_to_en(this.search).toLowerCase();
         return this.listData.filter((data) =>
-          convert_vi_to_en(data).toLowerCase().includes(value),
+          convert_vi_to_en(data)
+            .toLowerCase()
+            .includes(convert_vi_to_en(this.search).toLowerCase()),
         );
       } else {
         return this.listData;
@@ -92,11 +93,6 @@ export default {
       this.listChecked = [];
     },
   },
-  // watch: {
-  //   listChecked: function (e) {
-  //     this.onCheck(e);
-  //   },
-  // },
 };
 </script>
 <style scoped></style>
