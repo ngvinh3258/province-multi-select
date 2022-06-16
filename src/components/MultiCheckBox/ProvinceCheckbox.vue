@@ -1,29 +1,35 @@
 <template>
   <div class="checkbox-group">
     <span class="checkbox-province">
-      <input type="checkbox" v-model="checkedProvince.data" :value="idProvince" />
+      <input
+        type="checkbox"
+        :value="province"
+        :checked="isChecked(province)"
+        @input="changeCheck(province)"
+      />
       <span class="checkmark"></span>
     </span>
     <span class="label">{{ province }}</span>
   </div>
-
 </template>
 
 <script>
-import { mapState } from "vuex";
 export default {
   props: {
     province: {
       type: String,
       required: true,
     },
-    idProvince: {
-      type: String,
+    isChecked: {
+      type: Function,
       required: true,
     },
+    toggleCheckList: { type: Function },
   },
-  computed: {
-    ...mapState(["checkedProvince"]),
+  methods: {
+    changeCheck(e) {
+      this.toggleCheckList(e);
+    },
   },
 };
 </script>
@@ -71,7 +77,7 @@ span.label {
   border: 1px solid #333333;
 }
 
-.checkbox-province input:checked+.checkmark {
+.checkbox-province input:checked + .checkmark {
   background-color: #45d1c9;
   border-color: transparent;
 }
@@ -82,7 +88,7 @@ span.label {
   display: none;
 }
 
-.checkbox-province input:checked+.checkmark:after {
+.checkbox-province input:checked + .checkmark:after {
   display: block;
 }
 

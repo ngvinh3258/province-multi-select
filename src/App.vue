@@ -1,44 +1,37 @@
 <template>
   <div id="app">
-    <div class="select-container" v-click-outside="clickOutSide">
-      <input class="title-province" @click="$store.commit('setShowDropdown', !isShowDropdown)"
-        :class="{ active: isShowDropdown === true }" placeholder="Chọn tỉnh thành" type="text" v-model="search" />
-      <ProvinceList :search="search"></ProvinceList>
-    </div>
-    <ProvinceResult v-if="!isShowDropdown" />
+    <SelectMultiCheckbox
+      :listData="dataa"
+      :placeholder="placeholder"
+    ></SelectMultiCheckbox>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
-import ProvinceList from './components/ProvinceList.vue'
-import ProvinceResult from './components/ProvinceResult.vue';
-import store from '@/store';
+import SelectMultiCheckbox from "./components/SelectMultiCheckbox.vue";
+import axios from "axios";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    ProvinceList,
-    ProvinceResult
+    SelectMultiCheckbox,
   },
   data() {
     return {
-      search: ''
-    }
+      search: "",
+      dataa: [],
+      placeholder: "Choose provinces",
+    };
   },
-  computed: {
-
-    ...mapGetters(["provinces", "isShowDropdown"]),
-  }
-  , created() {
-    this.$store.dispatch("getProvinceGG");
-
-  }, methods: {
-    ...mapMutations(['setShowDropdown']),
-    clickOutSide() {
-      store.commit('setShowDropdown', false)
-    }
-  }
-}
+  created() {
+    axios.get("https://provinces.open-api.vn/api/?depth=1").then((response) => {
+      let listData = [];
+      response.data.forEach((e) => {
+        listData.push(e.name.replace(/(Thành phố )|(Tỉnh )/i, ""));
+      });
+      this.dataa = listData;
+    });
+  },
+};
 </script>
 
 <style>
@@ -52,6 +45,10 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.saaaaaa {
+  height: 40px;
+  width: 40px;
 }
 
 .select-container {
